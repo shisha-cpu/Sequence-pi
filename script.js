@@ -29,10 +29,16 @@ function searchSequence() {
 
         piDigitsElement.innerHTML = `${before}<span class="highlight">${found}</span>${after}`;
 
+        // Отображение индекса начала найденной последовательности
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = `Последовательность найдена на позиции: ${index + 1}`;
+
         // Прокрутка к найденной последовательности
         const highlightedElement = document.querySelector('.highlight');
         highlightedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
     } else {
         alert('Последовательность не найдена');
+        const resultElement = document.getElementById('result');
+        resultElement.textContent = '';
     }
 }
