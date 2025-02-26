@@ -13,32 +13,57 @@ function searchSequence() {
     const piDigitsElement = document.getElementById('pi-digits');
     const piDigits = piDigitsElement.textContent;
 
-    const index = piDigits.indexOf(searchInput);
+    if (!searchInput) {
+        alert('Введите последовательность для поиска');
+        return;
+    }
 
-    if (index !== -1) {
-        // Очистка предыдущего выделения
-        const highlighted = document.querySelector('.highlight');
-        if (highlighted) {
-            highlighted.outerHTML = highlighted.innerHTML;
-        }
+    const regex = new RegExp(searchInput, 'g');
+    const matches = [...piDigits.matchAll(regex)];
 
-        // Выделение новой последовательности
-        const before = piDigits.substring(0, index);
-        const found = piDigits.substring(index, index + searchInput.length);
-        const after = piDigits.substring(index + searchInput.length);
+    if (matches.length > 0) {
+        let highlightedPi = piDigits;
+        let resultHTML = 'Последовательность найдена на позициях: ';
+        let offset = 0;
+        let positions = [];
 
-        piDigitsElement.innerHTML = `${before}<span class="highlight">${found}</span>${after}`;
+        matches.forEach((match, i) => {
+            const index = match.index + offset;
+            positions.push(index + 1);
 
-        // Отображение индекса начала найденной последовательности
-        const resultElement = document.getElementById('result');
-        resultElement.textContent = `Последовательность найдена на позиции: ${index + 1}`;
+            // Вставляем теги <span> с id для навигации
+            const spanId = `match-${i}`;
+            highlightedPi = highlightedPi.substring(0, index) +
+                `<span class="highlight" id="${spanId}">${match[0]}</span>` +
+                highlightedPi.substring(index + match[0].length);
 
-        // Прокрутка к найденной последовательности
-        const highlightedElement = document.querySelector('.highlight');
-        highlightedElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            // Смещаем индекс для учета вставленных тегов <span>
+            offset += `<span class="highlight" id="${spanId}"></span>`.length;
+        });
+
+        piDigitsElement.innerHTML = highlightedPi;
+
+        // Создаем список кликабельных ссылок
+        resultHTML += positions
+            .map((pos, i) => `<a href="#match-${i}" onclick="scrollToMatch('match-${i}'); return false;">${pos}</a>`)
+            .join(', ');
+
+        document.getElementById('result').innerHTML = resultHTML;
+
+        // Прокрутка к первому найденному вхождению
+        scrollToMatch('match-0');
     } else {
         alert('Последовательность не найдена');
-        const resultElement = document.getElementById('result');
-        resultElement.textContent = '';
+        document.getElementById('result').textContent = '';
+    }
+}
+
+function scrollToMatch(id) {
+    const element = document.getElementById(id);
+    if (element) {
+        const yOffset = -300; // Отступ 200px сверху
+        const y = element.getBoundingClientRect().top + window.scrollY + yOffset;
+
+        window.scrollTo({ top: y, behavior: 'smooth' });
     }
 }

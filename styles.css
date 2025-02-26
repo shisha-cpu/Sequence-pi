@@ -1,18 +1,22 @@
 body {
     font-family: 'Arial', sans-serif;
     background-color: #f4f4f9;
-
+    margin: 0;
+    padding: 0;
+    max-width: 100svw;
+    text-align: center;
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
     color: #333;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     font-weight: 600;
 }
 
 input[type="text"] {
-    width: 300px;
+    width: 60%;
+    max-width: 400px;
     padding: 10px;
     margin-bottom: 15px;
     font-size: 1rem;
@@ -37,21 +41,27 @@ button {
     cursor: pointer;
     transition: background-color 0.3s;
 }
-.fixed{
-    position: fixed;
-    background-color: white;
-    width: 100%;
-    text-align: center;
-    padding: 10px;
-}
+
 button:hover {
     background-color: #5750e1;
+}
+
+.fixed {
+    position: fixed;
+    top: 0;
+    width: 100svw;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
 }
 
 #pi-digits {
     white-space: pre-wrap;
     font-family: monospace;
     overflow-wrap: break-word;
+    padding: 20px;
+    margin-top: 80px;
 }
 
 .highlight {
@@ -60,13 +70,23 @@ button:hover {
 }
 
 @media (max-width: 768px) {
-    input[type="text"] {
-        width: 80%;
+    .fixed {
+        position: fixed;
+        padding: 5px;
+        max-width: 100svw;
     }
-
+    .fixed h1 {
+        font-size: 20px;
+    }
+    input[type="text"],
     button {
-        width: 80%;
+        width: 90%;
+        max-width: none;
     }
 
-
+    #pi-digits {
+        font-size: 0.9rem;
+        padding: 10px;
+        margin-top: 20px;
+    }
 }
