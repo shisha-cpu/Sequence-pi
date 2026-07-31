@@ -10,11 +10,15 @@
     <div>
         <div class="fixed">
             <h1>Поиск последовательности в числе π</h1>
-        <input type="text" id="search-input" placeholder="Введите последовательность">
-        <button onclick="searchSequence()">Найти</button>
-        <div id="result"></div> <!-- Элемент для отображения результата -->
+            <input type="text" id="search-input" placeholder="Введите последовательность">
+            <button type="button" onclick="searchSequence()">Найти</button>
+            <div id="load-status" class="load-status" aria-live="polite"></div>
+            <div id="result"></div>
         </div>
-        <div id="pi-digits"></div>
+        <div id="pi-scroll" class="pi-scroll">
+            <div id="pi-spacer"></div>
+            <pre id="pi-digits"></pre>
+        </div>
     </div>
 
     <script src="script.js"></script>
